@@ -1,9 +1,12 @@
 import React from "react";
+import { Route, Link, Switch } from "react-router-dom";
 
 export default function Form(props) {
   const { formValues, change, submit, errors, buttonDisabled } = props;
   return (
     <div>
+      <Link to="/">Home</Link>
+      <Link to="/pizza">Pizza</Link>
       <form onSubmit={submit}>
         <h2>Choice of Size and Sauce</h2>
         <p>Required</p>
