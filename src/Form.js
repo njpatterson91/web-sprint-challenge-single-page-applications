@@ -70,6 +70,16 @@ export default function Form(props) {
           <p>{errors.email}</p>
         </label>
         <br />
+        <label htmlFor="name">
+          Who is ordering
+          <input
+            type="text"
+            name="name"
+            value={formValues.name}
+            onChange={change}
+          />
+          <br />
+        </label>
         <label htmlFor="sub">
           <button name="sub" disabled={buttonDisabled}>
             Submit
