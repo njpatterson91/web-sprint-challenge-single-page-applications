@@ -28,6 +28,7 @@ function App() {
   //State for errors
   const [errors, setErrors] = useState(defaultErrors);
   //button disabled state
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   //State to verify the post worked
   const [post, setPost] = useState([]);
   //The function to handle the onChange inside of the form
@@ -36,7 +37,7 @@ function App() {
     //Into something a bit more usable
     const { name, value } = evt.target;
     //Validates against schema
-    // validate(name, value);
+    validate(name, value);
     //sets the current state of form based off from what is in the form
     setFormValues({
       ...formValues,
@@ -62,18 +63,22 @@ function App() {
     setSavedFormInfo([...savedFormInfo, newData]);
     setFormValues(defaultValues);
   };
-  // const validate = (name, value) => {
-  //   yup
-  //     .reach(formSchema, name)
-  //     .validate(value)
-  //     .then((valid) => {
-  //       setErrors({ ...errors, [name]: "" });
-  //     })
-  //     .catch((err) => {
-  //       setErrors({ ...errors, [name]: err.errors[0] });
-  //     });
-  // };
-
+  const validate = (name, value) => {
+    yup
+      .reach(formSchema, name)
+      .validate(value)
+      .then((valid) => {
+        setErrors({ ...errors, [name]: "" });
+      })
+      .catch((err) => {
+        setErrors({ ...errors, [name]: err.errors[0] });
+      });
+  };
+  useEffect(() => {
+    formSchema.isValid(formValues).then((valid) => {
+      setButtonDisabled(!valid);
+    });
+  }, [formValues]);
   return (
     <div className="App">
       <Form
@@ -81,6 +86,7 @@ function App() {
         change={change}
         submit={submit}
         errors={errors}
+        buttonDisabled={buttonDisabled}
       />
     </div>
   );
